@@ -2,9 +2,6 @@
 from matplotlib import pyplot as plt
 import numpy as np
 import pandas as pd
-from matplotlib.widgets import MultiCursor
-import statistics
-import scipy.stats 
 try:
     df = pd.read_csv(
         'COVID-19/who_covid_19_situation_reports/who_covid_19_sit_rep_time_series/who_covid_19_sit_rep_time_series.csv', index_col=0)
@@ -12,12 +9,8 @@ except:
     print("Dataset not available, please clone repo listed in README")
     exit()
 
-df.set_index("Country/Region", inplace=True)
-dates = df.iloc[42, 3:46].reset_index()
-x = dates['index']
-y = dates['United States of America']
-print(dates)
-fig = plt.figure()
-plt.scatter(x,y)
-plt.xticks(np.arange(0,len(x),step=7),rotation=45)
-plt.show()
+import datetime
+import geopandas as gpd
+
+time_format = "COVID-19/csse_covid_19_data/csse_covid_19_daily_reports/%m-%d-%Y.csv"
+current_date = datetime.date(2020, 3, 1)
