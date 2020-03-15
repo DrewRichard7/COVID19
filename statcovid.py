@@ -13,9 +13,11 @@ except:
     exit()
 
 df.set_index("Country/Region", inplace=True)
-dates = df.iloc[42, 3:46]
+dates = df.iloc[42, 3:46].reset_index()
+x = dates['index']
+y = dates['United States of America']
 print(dates)
 fig = plt.figure()
-plt.plot(dates)
-plt.xticks(rotation=45)
+plt.scatter(x,y)
+plt.xticks(np.arange(0,len(x),step=7),rotation=45)
 plt.show()
