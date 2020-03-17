@@ -8,7 +8,7 @@ currentyear = num2str(time(1));
 globalread = readmatrix('COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv');
 currentdata = readtable('COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv');
 
-
+% Plot Global Data
 A = nansum(globalread);
 globaldata(1,:) = A(5:1:length(A));
 x = 0:(length(globalread(1,:))-5);
@@ -19,7 +19,7 @@ title('Global COVID-19 Cases')
 
 
 
-
+% Plot USA Data
 % arraydata = table2cell(currentdata);
 % 
 % cell2mat(arraydata)
