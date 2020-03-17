@@ -5,30 +5,26 @@ currentmonth = sprintf('%02d',time(2));
 currentday = num2str(time(3)-2);
 currentyear = num2str(time(1));
 
+globalread = readmatrix('COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv');
 currentdata = readtable('COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv');
 
 
+A = nansum(globalread);
+globaldata(1,:) = A(5:1:length(A));
+x = 0:(length(globalread(1,:))-5);
+plot(x,globaldata)
+ylabel('Confirmed Cases')
+xlabel('Days since 01/22/20')
+title('Global COVID-19 Cases')
 
-% cat(currentdata)
-
-% [currentdata.textdata,currentdata.data]
-
-% globalconfirmed = nansum(currentdata); % columns 5-length of array
 
 
-% countUS = count(currentdata.textdata,'US');
-% amountofUS = sum(countUS);
 
-% if currentdata.textdata(:,2) == string(US)
-%    for i = 1:amountofUS(2)
-%        confirmedcases = sum(currentdata.data(,:
-%    end
-%    
-% end
-% a = 0
-% for i = 1:amountofUS
-%     if countUS == 1
-%         a = a + currentdata.data(countUS(
+% arraydata = table2cell(currentdata);
+% 
+% cell2mat(arraydata)
+
+
         
         
         
