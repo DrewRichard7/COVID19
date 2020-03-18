@@ -45,9 +45,14 @@ plot(z,globaldata)
 
 syms t k K f A
 
-K = 394200;
-A = 394199;
-k = log(394199)./55;
+% inflectionpoint data (x,y)
+inflectionday = 55; % measured in days from 1/22/20
+inflectioncases = 197100; % confirmed cases from that day
+initialcases = 555; % confirmed cases on 1/22/20 // Do not change for now 
+
+K = 2*inflectioncases;
+A = 2*inflectioncases - initialcases;
+k = log(A)./inflectionday;
 f = @(t) K./(1+A.*exp(-k.*t));
 
 fplot(f,[0 120])
