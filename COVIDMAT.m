@@ -45,7 +45,7 @@ plot(z,globaldata(3,:))
 a =   4.658e+05;
 b =     0.05165;
 c =       29.88;
-p = @(x) a/(1+c*exp(-b*x));
+p = @(r) a/(1+c*exp(-b*r));
 
 fplot(p,[0 250])
 
