@@ -1,5 +1,7 @@
 close all;clc;clear all
 
+% Began on 3/14/20
+
 time = clock;
 currentmonth = sprintf('%02d',time(2));
 currentday = num2str(time(3)-2);
