@@ -35,8 +35,23 @@ C = nansum(globalreaddeaths);
 globaldata(1,:) = C(5:1:length(C));
 z = 0:(length(globalreaddeaths(1,:))-5);
 plot(z,globaldata)
-legend('Confirmed Cases','Recovered','Deaths','Location','best')
-hold off
+% legend('Confirmed Cases','Recovered','Deaths','logistic curve','Location','best')
+
+% logistic curve with inflection point on 3/17/20 (x,y) = (55,197100)
+% f = K/(1+A*exp(-k*t)) 
+% where inflection point is (ln(A)/k,K/2)
+% and A = K-f(0)/f(0) 
+% assuming f(0) = 1
+
+syms t k K f A
+
+K = 394200;
+A = 394199;
+k = log(394199)./55;
+f = @(t) K./(1+A.*exp(-k.*t));
+
+fplot(f,[0 120])
+legend('Confirmed Cases','Recovered','Deaths','logistic curve','Location','best')
 
 % Plot USA Data
 % arraydata = table2cell(currentdata);
