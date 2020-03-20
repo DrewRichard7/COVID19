@@ -17,7 +17,7 @@ globalreadrecovered = readmatrix('COVID-19/csse_covid_19_data/csse_covid_19_time
 A = nansum(globalreadcases);
 globaldata(1,:) = A(5:1:length(A));
 x = 0:(length(globalreadcases(1,:))-5);
-plot(x,globaldata)
+plot(x,globaldata(1,:))
 ylabel('Numbers of People')
 xlabel('Days since 01/22/20')
 ax = gca;
@@ -38,16 +38,16 @@ globaldata(3,:) = C(5:1:length(C));
 z = 0:(length(globalreaddeaths(1,:))-5);
 plot(z,globaldata(3,:))
 
-% for curve fitting purposes as of 3/18/20 -> R-square = 0.9299
+% for curve fitting purposes as of 3/19/20 -> R-square = 0.9429
 % lengthofA = 1:1:length(A);
-% casesofCOVID19 = globaldata(1,:);
+casesofCOVID19 = globaldata(1,:);
 
-a =   4.658e+05;
-b =     0.05165;
-c =       29.88;
-p = @(r) a/(1+c*exp(-b*r));
+a =    1.18e+09; 
+b =   7.534e+04; 
+c =      0.0452;
+p = @(r) a./(1+b.*exp(-c.*r));
 
-fplot(p,[0 250])
+% fplot(p,[0 500])
 
 % logistic curve with inflection point on 3/17/20 (x,y) = (55,197100)
 % f = K/(1+G*exp(-k*t)) 
