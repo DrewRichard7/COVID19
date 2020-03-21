@@ -69,11 +69,10 @@ f = @(t) K./(1+A.*exp(-k.*t));
 % fplot(f,[0 120])
 % legend('Confirmed Cases','Recovered','Deaths','logistic curve','Location','best')
 
-for i = 1:length(globaldata)
-   slope = zeros(1,length(globaldata));
-   slope(1,i) = globaldata(1,i+1)-globaldata(1,i) 
+slope = zeros(1,58);
+for i = 1:57
+   slope(1,i) = globaldata(1,i+1)-globaldata(1,i);
 end
-        
-        
-        
+scatter(x,slope)
+
         
