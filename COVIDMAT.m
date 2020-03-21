@@ -66,7 +66,7 @@ A = 2*inflectioncases - initialcases;
 k = log(A)./inflectionday;
 f = @(t) K./(1+A.*exp(-k.*t));
 
-fplot(f,[0 120])
+% fplot(f,[0 120])
 legend('Confirmed Cases','Recovered','Deaths','logistic curve','Location','best')
 
 
