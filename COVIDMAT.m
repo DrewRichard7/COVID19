@@ -25,14 +25,14 @@ hold on
 
 % Plot Global Deaths
 B = nansum(globalreadrecovered);
-globaldata(1,:) = B(5:1:length(B));
+globaldata(2,:) = B(5:1:length(B));
 y = 0:(length(globalreadrecovered(1,:))-5);
-plot(y,globaldata)
+plot(y,globaldata(2,:))
 hold on
 
 % Plot Global Recoveries
 C = nansum(globalreaddeaths);
-globaldata(1,:) = C(5:1:length(C));
+globaldata(3,:) = C(5:1:length(C));
 z = 0:(length(globalreaddeaths(1,:))-5);
 plot(z,globaldata(3,:))
 
@@ -74,7 +74,6 @@ legend('Confirmed Cases','Recovered','Deaths','logistic curve','Location','best'
 % arraydata = table2cell(currentdata);
 % 
 % cell2mat(arraydata)
-
 
         
         
