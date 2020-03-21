@@ -1,7 +1,5 @@
 close all;clc;clear all
 
-% Began on 3/14/20
-
 time = clock;
 currentmonth = sprintf('%02d',time(2));
 currentday = num2str(time(3)-2);
@@ -27,14 +25,14 @@ hold on
 
 % Plot Global Deaths
 B = nansum(globalreadrecovered);
-globaldata(2,:) = B(5:1:length(B));
+globaldata(1,:) = B(5:1:length(B));
 y = 0:(length(globalreadrecovered(1,:))-5);
-plot(y,globaldata(2,:))
+plot(y,globaldata)
 hold on
 
 % Plot Global Recoveries
 C = nansum(globalreaddeaths);
-globaldata(3,:) = C(5:1:length(C));
+globaldata(1,:) = C(5:1:length(C));
 z = 0:(length(globalreaddeaths(1,:))-5);
 plot(z,globaldata(3,:))
 
@@ -50,27 +48,35 @@ p = @(r) a./(1+b.*exp(-c.*r));
 % fplot(p,[0 500])
 
 % logistic curve with inflection point on 3/17/20 (x,y) = (55,197100)
-% f = K/(1+G*exp(-k*t)) 
-% where inflection point is (ln(G)/k,K/2)
-% and G = K-f(0)/f(0) 
+% f = K/(1+A*exp(-k*t)) 
+% where inflection point is (ln(A)/k,K/2)
+% and A = K-f(0)/f(0) 
 % assuming f(0) = 1
 
-% syms t k K f G
+syms t k K f A
 
 % inflectionpoint data (x,y)
-% inflectionday = 100; % measured in days from 1/22/20
-% inflectioncases = 500000; % confirmed cases from that day
-% initialcases = 1; % confirmed cases on 1/22/20 // Do not change for now 
-% 
-% K = 2*inflectioncases;
-% G = 2*inflectioncases - initialcases;
-% k = log(G)./inflectionday;
-% f = @(t) K./(1+G.*exp(-k.*t));
+inflectionday = 55; % measured in days from 1/22/20
+inflectioncases = 197100; % confirmed cases from that day
+initialcases = 555; % confirmed cases on 1/22/20 // Do not change for now 
 
-% fplot(f,[0 300])
-legend('Confirmed Cases','Recovered','Deaths','fit curve','location','best')%'logistic curve','Location','best')
+
+K = 2*inflectioncases;
+A = 2*inflectioncases - initialcases;
+k = log(A)./inflectionday;
+f = @(t) K./(1+A.*exp(-k.*t));
+
+fplot(f,[0 120])
+legend('Confirmed Cases','Recovered','Deaths','logistic curve','Location','best')
+
 
 % Plot USA Data
 % arraydata = table2cell(currentdata);
 % 
-% cell2mat(arraydata)    
+% cell2mat(arraydata)
+
+
+        
+        
+        
+        
