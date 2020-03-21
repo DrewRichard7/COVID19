@@ -70,8 +70,6 @@ p = @(r) a./(1+b.*exp(-c.*r));
 % fplot(f,[0 300])
 legend('Confirmed Cases','Recovered','Deaths','fit curve','location','best')%'logistic curve','Location','best')
 
-
-
 % Plot USA Data
 % arraydata = table2cell(currentdata);
 % 
