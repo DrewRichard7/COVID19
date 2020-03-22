@@ -10,12 +10,13 @@ globalreadcases = readmatrix('COVID-19/csse_covid_19_data/csse_covid_19_time_ser
 globalreaddeaths = readmatrix('COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Deaths.csv');
 globalreadrecovered = readmatrix('COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Recovered.csv');
 
+figure(1)
 
 % Plot Global Cases
 A = nansum(globalreadcases);
 globaldata(1,:) = A(5:1:length(A));
 x = 0:(length(globalreadcases(1,:))-5);
-% plot(x,globaldata(1,:))
+plot(x,globaldata(1,:))
 ylabel('Numbers of People')
 xlabel('Days since 01/22/20')
 ax = gca;
@@ -27,14 +28,14 @@ hold on
 B = nansum(globalreadrecovered);
 globaldata(2,:) = B(5:1:length(B));
 y = 0:(length(globalreadrecovered(1,:))-5);
-% plot(y,globaldata(2,:))
+plot(y,globaldata(2,:))
 hold on
 
 % Plot Global Recoveries
 C = nansum(globalreaddeaths);
 globaldata(3,:) = C(5:1:length(C));
 z = 0:(length(globalreaddeaths(1,:))-5);
-% plot(z,globaldata(3,:))
+plot(z,globaldata(3,:))
 
 % for curve fitting purposes as of 3/19/20 -> R-square = 0.9429
 % lengthofA = 1:1:length(A);
@@ -69,10 +70,12 @@ f = @(t) K./(1+A.*exp(-k.*t));
 % fplot(f,[0 120])
 % legend('Confirmed Cases','Recovered','Deaths','logistic curve','Location','best')
 
-slope = zeros(1,58);
-for i = 1:57
+hold off
+figure(2)
+slope = zeros(1,length(x));
+for i = 1:(length(x)-1)
    slope(1,i) = globaldata(1,i+1)-globaldata(1,i);
 end
-scatter(x,slope)
+scatter(x,slope,'o')
 
         
