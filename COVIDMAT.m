@@ -5,9 +5,9 @@ currentmonth = sprintf('%02d',time(2));
 currentday = num2str(time(3)-2);
 currentyear = num2str(time(1));
 
-currentdata = readtable('COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv');
-globalreadcases = readmatrix('COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv');
-globalreaddeaths = readmatrix('COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Deaths.csv');
+currentdata = readtable('COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv');
+globalreadcases = readmatrix('COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv');
+globalreaddeaths = readmatrix('COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv');
 globalreadrecovered = readmatrix('COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Recovered.csv');
 
 figure(1)
@@ -32,10 +32,10 @@ plot(y,globaldata(2,:))
 hold on
 
 % Plot Global Recoveries
-C = nansum(globalreaddeaths);
-globaldata(3,:) = C(5:1:length(C));
-z = 0:(length(globalreaddeaths(1,:))-5);
-plot(z,globaldata(3,:))
+% C = nansum(globalreaddeaths);
+% globaldata(3,:) = C(5:1:length(C));
+% z = 0:(length(globalreaddeaths(1,:))-5);
+% plot(z,globaldata(3,:))
 
 % for curve fitting purposes as of 3/19/20 -> R-square = 0.9429
 % lengthofA = 1:1:length(A);
@@ -57,8 +57,8 @@ p = @(r) a./(1+b.*exp(-c.*r));
 syms t k K f A
 
 % inflectionpoint data (x,y)
-inflectionday = 55; % measured in days from 1/22/20
-inflectioncases = 197100; % confirmed cases from that day
+inflectionday = 61; % measured in days from 1/22/20
+inflectioncases = 378500; % confirmed cases from that day
 initialcases = 555; % confirmed cases on 1/22/20 // Do not change for now 
 
 
@@ -67,15 +67,19 @@ A = 2*inflectioncases - initialcases;
 k = log(A)./inflectionday;
 f = @(t) K./(1+A.*exp(-k.*t));
 
-% fplot(f,[0 120])
-% legend('Confirmed Cases','Recovered','Deaths','logistic curve','Location','best')
+fplot(f,[0 120])
+% legend('Confirmed Cases','Deaths','logistic curve','Location','best')
+finalday = 1.5*inflectionday;
+finalcases = K;
 
-hold off
-figure(2)
+% hold off
+% figure(2)
 slope = zeros(1,length(x));
 for i = 1:(length(x)-1)
    slope(1,i) = globaldata(1,i+1)-globaldata(1,i);
 end
-scatter(x,slope,'o')
+plot(x(1:length(x)-1),slope(1:length(x)-1))
+
+legend('Confirmed Cases','Deaths','logistic curve','number of new cases reported','Location','best')
 
         
