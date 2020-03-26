@@ -1,4 +1,3 @@
-
 # If it's been a while since this was run, uncomment the read_html & to_csv
 # lines to import the latest data. Don't forget to comment the read_csv before
 # you do.
@@ -38,6 +37,7 @@ topten_infected_df['Infections'] = infected_df['TotalCases'].iloc[0:10]
 # and the other had United Kingdom, but for USA and S. Korea also.
 # My skills aren't good enough yet to find and change that in code,
 # so I did it manually.
+# look at big_df = big_df.replace(to_replace=, value=)
 big_df = pd.DataFrame()
 for row in topten_infected_df.itertuples():
     big_df = pd.concat([big_df,
