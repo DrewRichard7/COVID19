@@ -2,44 +2,67 @@ close all;clc;clear all
 
 time = clock;
 currentmonth = sprintf('%02d',time(2));
-currentday = num2str(time(3)-2);
+currentday = num2str(time(3));
 currentyear = num2str(time(1));
+dayssince122 = str2double(currentday) + 38;
 
 currentdata = readtable('COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv');
 globalreadcases = readmatrix('COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv');
 globalreaddeaths = readmatrix('COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv');
-globalreadrecovered = readmatrix('COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Recovered.csv');
+globalreadrecovered = readmatrix('COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv');
 
 figure(1)
+xaxislimit = 120;
+subplot(2,1,1);
 
 % Plot Global Cases
 A = nansum(globalreadcases);
-globaldata(1,:) = A(5:1:length(A));
+globalcases(1,:) = A(5:1:length(A));
 x = 0:(length(globalreadcases(1,:))-5);
-plot(x,globaldata(1,:))
+plot(x,globalcases(1,:))
 ylabel('Numbers of People')
 xlabel('Days since 01/22/20')
 ax = gca;
 ax.YAxis.Exponent = 0;
-title('Global COVID-19 Cases')
+title('Global COVID-19 Data')
+hold on
+
+% Plot Global Recovered
+B = nansum(globalreadrecovered);
+globalrecovered(1,:) = B(5:1:length(B));
+y = 0:(length(globalreadrecovered(1,:))-5);
+plot(y,globalrecovered(1,:))
+xlim([0 xaxislimit]);
 hold on
 
 % Plot Global Deaths
-B = nansum(globalreadrecovered);
-globaldata(2,:) = B(5:1:length(B));
-y = 0:(length(globalreadrecovered(1,:))-5);
-plot(y,globaldata(2,:))
+C = nansum(globalreaddeaths);
+globaldeaths(1,:) = C(5:1:length(C));
+z = 0:(length(globalreaddeaths(1,:))-5);
+plot(z,globaldeaths(1,:))
+xlim([0 xaxislimit]);
 hold on
+% curve fitting 
 
-% Plot Global Recoveries
-% C = nansum(globalreaddeaths);
-% globaldata(3,:) = C(5:1:length(C));
-% z = 0:(length(globalreaddeaths(1,:))-5);
-% plot(z,globaldata(3,:))
+casesofCOVID19 = globalcases(1,:);
+totalcasestoday = globalcases(length(globalcases));
+totalrecoveredtoday = globalrecovered(length(globalrecovered));
+totaldeathstoday = globaldeaths(length(globaldeaths));
 
-% for curve fitting purposes as of 3/19/20 -> R-square = 0.9429
-% lengthofA = 1:1:length(A);
-casesofCOVID19 = globaldata(1,:);
+text(5,600000,strcat('Total Cases as of Today:  ',string(totalcasestoday),''))
+text(5,500000,strcat('Total Recovered as of Today:  ',string(totalrecoveredtoday),''))
+text(5,400000,strcat('Total Deaths as of Today:  ',string(totaldeathstoday),''))
+
+d = .115;
+popsize = 8000000;
+DaysIntoTheFuture = 1;
+N = zeros(length(x)+DaysIntoTheFuture);
+for i = 1:(length(x)+DaysIntoTheFuture)
+    N(1) = 555;
+    N(i+1) = d.*(1-(N(i)./popsize)).*N(i) + N(i);
+    plot(i,N(i+1),'.')
+end
+
 
 a =    1.18e+09; 
 b =   7.534e+04; 
@@ -49,37 +72,39 @@ p = @(r) a./(1+b.*exp(-c.*r));
 % fplot(p,[0 500])
 
 % logistic curve with inflection point on 3/17/20 (x,y) = (55,197100)
-% f = K/(1+A*exp(-k*t)) 
-% where inflection point is (ln(A)/k,K/2)
-% and A = K-f(0)/f(0) 
+% f = K/(1+Z*exp(-k*t)) 
+% where inflection point is (ln(Z)/k,K/2)
+% and Z = K-f(0)/f(0) 
 % assuming f(0) = 1
 
-syms t k K f A
+syms t k K f Z
 
 % inflectionpoint data (x,y)
-inflectionday = 61; % measured in days from 1/22/20
-inflectioncases = 378500; % confirmed cases from that day
+inflectionday = 63; % measured in days from 1/22/20
+inflectioncases = 467600; % confirmed cases from that day
 initialcases = 555; % confirmed cases on 1/22/20 // Do not change for now 
 
-
 K = 2*inflectioncases;
-A = 2*inflectioncases - initialcases;
-k = log(A)./inflectionday;
-f = @(t) K./(1+A.*exp(-k.*t));
+Z = 2*inflectioncases - initialcases;
+k = log(Z)./inflectionday;
+f = @(t) K./(1+Z.*exp(-k.*t));
 
-fplot(f,[0 120])
-% legend('Confirmed Cases','Deaths','logistic curve','Location','best')
+% fplot(f,[0 120])
 finalday = 1.5*inflectionday;
 finalcases = K;
+legend('Confirmed Cases','Recovered','Deaths','Logistic Curve (Projected Growth)','Location','southeast')
 
-% hold off
-% figure(2)
+subplot(2,1,2)
 slope = zeros(1,length(x));
 for i = 1:(length(x)-1)
-   slope(1,i) = globaldata(1,i+1)-globaldata(1,i);
+   slope(1,i) = globalcases(1,i+1)-globalcases(1,i);
 end
 plot(x(1:length(x)-1),slope(1:length(x)-1))
+ylabel('New Patients per Day')
+xlabel('Days since 01/22/20')
+title('Slope Analysis')
+xlim([0 xaxislimit]);
+legend('Number of New Cases Reported','Location','best')
 
-legend('Confirmed Cases','Deaths','logistic curve','number of new cases reported','Location','best')
 
         
