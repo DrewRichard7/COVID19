@@ -55,7 +55,7 @@ text(5,400000,strcat('Total Deaths as of Today:  ',string(totaldeathstoday),''))
 
 d = .115;
 popsize = 8000000;
-DaysIntoTheFuture = 1;
+DaysIntoTheFuture = 5;
 N = zeros(length(x)+DaysIntoTheFuture);
 for i = 1:(length(x)+DaysIntoTheFuture)
     N(1) = 555;
