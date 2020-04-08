@@ -49,12 +49,12 @@ totalcasestoday = globalcases(length(globalcases));
 totalrecoveredtoday = globalrecovered(length(globalrecovered));
 totaldeathstoday = globaldeaths(length(globaldeaths));
 
-text(5,600000,strcat('Total Cases as of Today:  ',string(totalcasestoday),''))
-text(5,500000,strcat('Total Recovered as of Today:  ',string(totalrecoveredtoday),''))
-text(5,400000,strcat('Total Deaths as of Today:  ',string(totaldeathstoday),''))
+text(5,1000000,strcat('Total Cases as of Today:  ',string(totalcasestoday),''))
+text(5,750000,strcat('Total Recovered as of Today:  ',string(totalrecoveredtoday),''))
+text(5,500000,strcat('Total Deaths as of Today:  ',string(totaldeathstoday),''))
 
-d = .115;
-popsize = 8000000;
+d = .117;
+popsize = 3000000;
 DaysIntoTheFuture = 5;
 N = zeros(length(x)+DaysIntoTheFuture);
 for i = 1:(length(x)+DaysIntoTheFuture)
@@ -64,12 +64,13 @@ for i = 1:(length(x)+DaysIntoTheFuture)
 end
 
 
-a =    1.18e+09; 
-b =   7.534e+04; 
-c =      0.0452;
-p = @(r) a./(1+b.*exp(-c.*r));
+ a =   3.006e+07;
+ b =      0.0914;
+ c =   1.938e+04;
 
-% fplot(p,[0 500])
+p = @(r) a/(1 + c*exp(-b*r));
+
+% fplot(p,[0 300])
 
 % logistic curve with inflection point on 3/17/20 (x,y) = (55,197100)
 % f = K/(1+Z*exp(-k*t)) 
@@ -80,8 +81,8 @@ p = @(r) a./(1+b.*exp(-c.*r));
 syms t k K f Z
 
 % inflectionpoint data (x,y)
-inflectionday = 63; % measured in days from 1/22/20
-inflectioncases = 467600; % confirmed cases from that day
+inflectionday = 69; % measured in days from 1/22/20
+inflectioncases = 857000; % confirmed cases from that day
 initialcases = 555; % confirmed cases on 1/22/20 // Do not change for now 
 
 K = 2*inflectioncases;
@@ -92,7 +93,7 @@ f = @(t) K./(1+Z.*exp(-k.*t));
 % fplot(f,[0 120])
 finalday = 1.5*inflectionday;
 finalcases = K;
-legend('Confirmed Cases','Recovered','Deaths','Logistic Curve (Projected Growth)','Location','southeast')
+legend('Confirmed Cases','Recovered','Deaths','Logistic Curve (Projected Growth)','Location','best')
 
 subplot(2,1,2)
 slope = zeros(1,length(x));
