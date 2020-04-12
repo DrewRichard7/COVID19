@@ -54,8 +54,8 @@ text(5,750000,strcat('Total Recovered as of Today:  ',string(totalrecoveredtoday
 text(5,500000,strcat('Total Deaths as of Today:  ',string(totaldeathstoday),''))
 
 d = .117;
-popsize = 3000000;
-DaysIntoTheFuture = 5;
+popsize = 3200000;
+DaysIntoTheFuture = 10;
 N = zeros(length(x)+DaysIntoTheFuture);
 for i = 1:(length(x)+DaysIntoTheFuture)
     N(1) = 555;
@@ -81,8 +81,8 @@ p = @(r) a/(1 + c*exp(-b*r));
 syms t k K f Z
 
 % inflectionpoint data (x,y)
-inflectionday = 69; % measured in days from 1/22/20
-inflectioncases = 857000; % confirmed cases from that day
+inflectionday = 75; % measured in days from 1/22/20
+inflectioncases = 1325000; % confirmed cases from that day
 initialcases = 555; % confirmed cases on 1/22/20 // Do not change for now 
 
 K = 2*inflectioncases;
