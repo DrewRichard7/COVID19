@@ -12,7 +12,7 @@ globalreaddeaths = readmatrix('COVID-19/csse_covid_19_data/csse_covid_19_time_se
 globalreadrecovered = readmatrix('COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv');
 
 figure(1)
-xaxislimit = 120;
+xaxislimit = 1000;
 subplot(2,1,1);
 
 % Plot Global Cases
@@ -49,9 +49,9 @@ totalcasestoday = globalcases(length(globalcases));
 totalrecoveredtoday = globalrecovered(length(globalrecovered));
 totaldeathstoday = globaldeaths(length(globaldeaths));
 
-text(5,1000000,strcat('Total Cases as of Today:  ',string(totalcasestoday),''))
-text(5,750000,strcat('Total Recovered as of Today:  ',string(totalrecoveredtoday),''))
-text(5,500000,strcat('Total Deaths as of Today:  ',string(totaldeathstoday),''))
+% text(5,1000000,strcat('Total Cases as of Today:  ',string(totalcasestoday),''))
+% text(5,750000,strcat('Total Recovered as of Today:  ',string(totalrecoveredtoday),''))
+% text(5,500000,strcat('Total Deaths as of Today:  ',string(totaldeathstoday),''))
 
 d = .117;
 popsize = 3200000;
@@ -63,21 +63,7 @@ for i = 1:(length(x)+DaysIntoTheFuture)
     plot(i,N(i+1),'.')
 end
 
-
- a =   3.006e+07;
- b =      0.0914;
- c =   1.938e+04;
-
-p = @(r) a/(1 + c*exp(-b*r));
-
-% fplot(p,[0 300])
-
-% logistic curve with inflection point on 3/17/20 (x,y) = (55,197100)
-% f = K/(1+Z*exp(-k*t)) 
-% where inflection point is (ln(Z)/k,K/2)
-% and Z = K-f(0)/f(0) 
-% assuming f(0) = 1
-
+%%
 syms t k K f Z
 
 % inflectionpoint data (x,y)
@@ -106,6 +92,11 @@ xlabel('Days since 01/22/20')
 title('Slope Analysis')
 xlim([0 xaxislimit]);
 legend('Number of New Cases Reported','Location','best')
+%%
+% figure
+% q = fitglm(x,globalcases(1,:));
+% prediction = predict(q,x);
+% plot(x,prediction)
 
 
         
